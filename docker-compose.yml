@@ -1,0 +1,13 @@
+version: '3'
+services:
+  airflow:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./logs:/usr/local/airflow/logs
+      - ./plugins:/usr/local/airflow/plugins
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    command: webserver
