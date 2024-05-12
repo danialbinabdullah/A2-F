@@ -1,0 +1,7 @@
+apache-airflow==2.3.0
+pendulum==2.1.2
+pluggy==1.0.0
+pymysql==1.0.2
+rich==12.17.0
+sqlalchemy==1.4.27
+tzlocal==3.0
