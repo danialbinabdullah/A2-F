@@ -186,10 +186,38 @@ dag = DAG(
     schedule_interval=timedelta(days=1),
 )
 
-main_task = PythonOperator(
-    task_id='main_task',
+extract_task = PythonOperator(
+    task_id='extract_task',
     python_callable=main,
     dag=dag,
 )
 
-main_task
+preprocess_task = PythonOperator(
+    task_id='preprocess_task',
+    python_callable=preprocess,
+    provide_context=True,
+    dag=dag,
+)
+
+save_task = PythonOperator(
+    task_id='save_task',
+    python_callable=save_to_csv,
+    provide_context=True,
+    dag=dag,
+)
+
+dvc_push_task = PythonOperator(
+    task_id='dvc_push_task',
+    python_callable=transform,
+    provide_context=True,
+    dag=dag,
+)
+
+git_push_task = PythonOperator(
+    task_id='git_push_task',
+    python_callable=transform,
+    provide_context=True,
+    dag=dag,
+)
+
+extract_task >> preprocess_task >> save_task >> dvc_push_task >> git_push_task
